@@ -67,6 +67,6 @@ Things you may want to cover:
 
 ## Association
 - belongs_to :user
-- has_many :groups
+- belong_to :groups
 
 
