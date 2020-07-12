@@ -51,6 +51,10 @@
 
     &__box {
       display: block;
+      a {
+        color: #ffffff;
+        text-decoration: none;
+      }
 
       &__group-name {
         font-size: 15px;
