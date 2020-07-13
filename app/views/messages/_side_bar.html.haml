@@ -14,10 +14,10 @@
   .groups-list
     - current_user.groups.each do |group|
       .groups-list__box
-        = link_to edit_group_path(current_user) do
+        = link_to group_messages_path(group) do
           %p.groups-list__box__group-name
             = group.name
           %p.groups-list__box__group-message
-            まだメッセージがありません
+            = group.show_last_message
     
 
