@@ -13,24 +13,6 @@
 
   .message
     = render @messages
-    .message__box
-      .message__box__info
-        .message__box__info__user-name
-          masa
-        .message__box__info__date
-          2019/11/20(Wed) 17:43:34
-      .message__box__content
-        %p
-          こんにちは
-    .message__box
-      .message__box__info
-        .message__box__info__user-name
-          masa
-        .message__box__info__date
-          2019/11/20(Wed) 17:54:45
-      .message__box__content
-        %p.message__box__content-message
-          おはよう
 
   .form
     = form_with model: [@group, @message], html: {class: "new_message"}, local: true do |f|
