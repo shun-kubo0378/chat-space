@@ -2,7 +2,7 @@ $(function(){
   function buildHTML(message){
     if ( message.image ) {
       let html = 
-      `<div class="message__box">
+      `<div class="message__box" data-message-id=${message.id}>
           <div class="message__box__info">
             <div class="message__box__info__user-name">
               ${message.user_name}
@@ -21,7 +21,7 @@ $(function(){
       return html;
     } else {
       let html =
-      `<div class="message__box">
+      `<div class="message__box" data-message-id=${message.id}>
         <div class="message__box__info">
           <div class="message__box__info__user-name">
             ${message.user_name}
@@ -37,33 +37,30 @@ $(function(){
         </div>
       </div>`
       return html;
-    };
+    };   
   }
-    
-  $('.new_message').on('submit', function(e){
-    e.preventDefault()
-    let formData = new FormData(this)
-    let url = $(this).attr('action')
-    
-    $.ajax ({
-      url: url,
-      type: 'POST',
-      data: formData,
+
+  let reloadMessages = function() {
+    let last_message_id = $('.message__box:last').data("message-id") || 0;
+    $.ajax({
+      url: "api/messages",
+      type: 'get',
       dataType: 'json',
-      processData: false,
-      contentType: false
+      data: {id: last_message_id}
     })
-
-    .done(function(data){
-      let html = buildHTML(data);
-      $('.message').append(html);    
-      $('.message').animate({ scrollTop: $('.message')[0].scrollHeight});  
-      $('form')[0].reset();
-      $('.submit-btn').removeAttr('disabled')
+    .done(function(messages) {
+      if (messages.length !== 0) {
+        let insertHTML = '';
+        $.each(messages, function(i, message) {
+          insertHTML += buildHTML(message)
+        });
+        $('.message').append(insertHTML);
+        $('.message').animate({ scrollTop: $('.message')[0].scrollHeight});
+      }
     })
-
     .fail(function() {
-      alert("メッセージ送信に失敗しました");
+      alert('error');
     });
-  });
+  };
+  setInterval(reloadMessages, 7000);
 });
